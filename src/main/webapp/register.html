@@ -5,6 +5,32 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<header>Add Your Creater</header>
+	<div>
+		<form
+			action="http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=join"
+			method="post">
+			<fieldset>
+				<legend>Creater Information</legend>
+				<ul>
+					<li>유튜버 이름 : <input type="text" name="creator" autofocus
+						required placeholder="공백없이 입력하세요" />
+					<li>카테고리 : <select name="category">
+						<option value="exercise">운동</option>
+						<option value="game">게임</option>
+						<option value="song">노래</option>
+						<option value="etc">기타</option>
+					</select>
+					<li>간단한 소개 : <input type="text" name="content" required
+						placeholder="간단한 소개글을 작성해주세요" />
+				</ul>
+			</fieldset>
+			<br>
+			<fieldset>
+				<input type="submit" name="submit" value="추가하기"> <input
+					type="reset" name="reset" value="다시 작성">
+			</fieldset>
+		</form>
+	</div>
 </body>
 </html>
