@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import domain.UserVO;
 import persistence.UserDAO;
@@ -27,12 +28,14 @@ public class UserServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-		System.out.println("doGet()");
+		System.out.println("User doGet()");
 		String cmdReq = "";
 		cmdReq = request.getParameter("cmd");
 		if (cmdReq.equals("signup")) {
 			response.sendRedirect("signUp.html");
 		} else if (cmdReq.equals("login") || cmdReq.equals("logout")) {
+			HttpSession session = request.getSession();
+			session.invalidate();
 			request.setAttribute("check", 0);
 			response.sendRedirect("login.jsp");
 		}
@@ -44,7 +47,7 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("doPost()");
+		System.out.println("User doPost()");
 		String cmdReq = "";
 		cmdReq = request.getParameter("cmd");
 		
@@ -58,9 +61,13 @@ public class UserServlet extends HttpServlet {
 			
 			UserVO user = userDAO.find(userVO.getId(), userVO.getPasswd());
 			if(user != null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("user_id", user.getId());
+				String str = (String) session.getAttribute("user_id");
+				System.out.println(str);
 				//유저 정보 유지
-				request.getSession().setAttribute("user_id", user.getId());
-				request.getSession().setAttribute("user_username", user.getUsername());
+//				request.setAttribute("user_id", user.getId());
+				request.setAttribute("user_username", user.getUsername());
 				
 				//전체 게시판 불러오기
 				request.setAttribute("category", "total");
