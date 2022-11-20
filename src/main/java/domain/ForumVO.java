@@ -1,35 +1,41 @@
 package domain;
 
 public class ForumVO {
-	private String index;
-	private String title;
+	private String creator;
+	private String category;
+	private String user_id;
 	private String content;
-	private String date;
+	private String upload_date;
 	
-	public String getIndex() {
-		return index;
+	public String getCreator() {
+		return creator;
 	}
-	public String getTitle() {
-		return title;
+	public String getCategory() {
+		return category;
+	}
+	public String getUser_id() {
+		return user_id;
 	}
 	public String getContent() {
 		return content;
 	}
-	public String getDate() {
-		return date;
+	public String getUpload_date() {
+		return upload_date;
 	}
 	
-	public void setIndex(String index) {
-		this.index = index;
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setUpload_date(String upload_date) {
+		this.upload_date = upload_date;
 	}
-	
 }
