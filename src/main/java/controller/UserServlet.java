@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import domain.ForumVO;
 import domain.UserVO;
+import persistence.ForumDAO;
 import persistence.UserDAO;
 
 /**
@@ -61,13 +64,15 @@ public class UserServlet extends HttpServlet {
 			
 			UserVO user = userDAO.find(userVO.getId(), userVO.getPasswd());
 			if(user != null) {
+				//유저 정보 유지
 				HttpSession session = request.getSession();
 				session.setAttribute("user_id", user.getId());
-				String str = (String) session.getAttribute("user_id");
-				System.out.println(str);
-				//유저 정보 유지
-//				request.setAttribute("user_id", user.getId());
-				request.setAttribute("user_username", user.getUsername());
+				session.setAttribute("user_username", user.getUsername());
+				
+				//전체 list 불러오기
+				ForumDAO forumDAO = new ForumDAO();
+				ArrayList<ForumVO> postList = forumDAO.getForumsList();
+				request.setAttribute("postList", postList);
 				
 				//전체 게시판 불러오기
 				request.setAttribute("category", "total");
