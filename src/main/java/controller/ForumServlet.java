@@ -42,6 +42,13 @@ public class ForumServlet extends HttpServlet {
 		cmdReq = request.getParameter("cmd");
 		if (cmdReq.equals("add")) {
 			response.sendRedirect("register.html");
+		} else if(cmdReq.equals("post")) {
+			ForumDAO dao = new ForumDAO();
+			String creator = request.getParameter("creator");
+			request.setAttribute("post", dao.read(creator));
+			
+			RequestDispatcher view = request.getRequestDispatcher("post.jsp");
+			view.forward(request, response);
 		}
 	}
 
