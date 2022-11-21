@@ -77,10 +77,13 @@ public class ForumServlet extends HttpServlet {
 
 			ForumDAO forumDAO = new ForumDAO();
 
-			if (forumDAO.add(forumVO))
-				message = "가입을 축하합니다";
-			else
-				message = "가입을 실패입니다";
+			if (forumDAO.add(forumVO)) {
+				request.setAttribute("check", 1);
+				message = "게시글이 등록되었습니다.";
+			} else {
+				request.setAttribute("check", 0);
+				message = "게시글 등록이 실패했습니다.";
+			}
 
 			request.setAttribute("greetings", message);
 			request.setAttribute("post", forumVO);
