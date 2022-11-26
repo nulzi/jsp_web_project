@@ -124,26 +124,6 @@ public class UserDAO {
 		return true;
 	}
 
-	public boolean update(UserVO vo) {
-		connect();
-		String sql = "update users set id=?,passwd=?,username=? where id=?";
-
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, vo.getId());
-			pstmt.setString(2, vo.getPasswd());
-			pstmt.setString(3, vo.getUsername());
-			pstmt.setString(4, vo.getId());
-			pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			disconnect();
-		}
-		return true;
-	}
-
 	public ArrayList<UserVO> getUsersList() {
 		connect();
 		ArrayList<UserVO> userslist = new ArrayList<UserVO>();
