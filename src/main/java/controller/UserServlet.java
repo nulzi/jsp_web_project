@@ -50,13 +50,11 @@ public class UserServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("User doPost()");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		String cmdReq = "";
 		cmdReq = request.getParameter("cmd");
 		
@@ -68,8 +66,9 @@ public class UserServlet extends HttpServlet {
 
 			UserDAO userDAO = new UserDAO();
 			
-			UserVO user = userDAO.find(userVO.getId(), userVO.getPasswd());
+			UserVO user = userDAO.isRegisteredUser(userVO.getId(), userVO.getPasswd());
 			if(user != null) {
+				// 로그인 성공시
 				//유저 정보 유지
 				HttpSession session = request.getSession();
 				session.setAttribute("user_id", user.getId());
@@ -81,14 +80,14 @@ public class UserServlet extends HttpServlet {
 				request.setAttribute("postList", postList);
 				
 				//전체 게시판 불러오기
-				request.setAttribute("category", "total");
+				request.setAttribute("category", "전체");
 				
-				// 로그인 성공시
 				RequestDispatcher view = request.getRequestDispatcher("totalForum.jsp");
 				view.forward(request, response);
 			} else {
-				request.setAttribute("check", 1);
 				// 로그인 실패시
+				request.setAttribute("check", 1);
+
 				RequestDispatcher view = request.getRequestDispatcher("login.jsp");
 				view.forward(request, response);
 			}
@@ -105,7 +104,6 @@ public class UserServlet extends HttpServlet {
 				request.setAttribute("check", 1);
 				request.setAttribute("user", userVO);
 			} else {
-//				System.out.println(userDAO.add(userVO));
 				request.setAttribute("check", 0);
 			}
 
