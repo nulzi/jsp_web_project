@@ -16,31 +16,37 @@ import domain.UserVO;
 import persistence.ForumDAO;
 import persistence.UserDAO;
 
-/**
- * Servlet implementation class UserServlet
- */
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		System.out.println("User doGet()");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		String cmdReq = "";
 		cmdReq = request.getParameter("cmd");
+		HttpSession session = request.getSession();
+		
 		if (cmdReq.equals("signup")) {
 			response.sendRedirect("signUp.html");
-		} else if (cmdReq.equals("login") || cmdReq.equals("logout")) {
-			HttpSession session = request.getSession();
-			session.invalidate();
-			request.setAttribute("check", 0);
+		} else if (cmdReq.equals("login")) {
 			response.sendRedirect("login.jsp");
+		}  else if (cmdReq.equals("logout")) {
+			session.invalidate();
+			response.sendRedirect("login.jsp");
+		} else if(cmdReq.equals("user_delete")) {
+			//회원탈퇴
+			String userId = (String)session.getAttribute("user_id");
+			UserDAO dao = new UserDAO();
+			dao.delete(userId);
+			//로그아웃
+			session.invalidate();
+			request.setAttribute("check", 2);
+			
+			RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+			view.forward(request, response);
 		}
 	}
 
