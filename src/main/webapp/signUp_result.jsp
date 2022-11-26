@@ -6,16 +6,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="./resources/public.css" type="text/css" />
 </head>
 <body>
-	<c:if test="${check == 1}" var="result">
-		<h2>${user.username}님 회원가입을 축하합니다</h2>
-		<a href="http://localhost:8080/kimtaeyoung_free/UserServlet?cmd=login"
-			target="_self">로그인하러가기</a>
-	</c:if>
-	<c:if test="${check == 0}" var="result">
-		<h2>죄송합니다. 오류가 발생했습니다.<br>다시 회원가입해주세요.</h2>
-		<a href="signUp.html">다시 가입하기</a>
-	</c:if>
+	<div class="app_container">
+		<header class="header_container logo">
+			what's<br>in<br>your<br> <img alt="youtube logo"
+				src="./resources/images/youtube.jpg">?
+		</header>
+		<div class="main_container column_box">
+			<c:if test="${check == 1}" var="result">
+				<h1>${user.username}님의 가입을 축하합니다</h1>
+				<a class="gray_message arrow"
+					href="http://localhost:8080/kimtaeyoung_free/UserServlet?cmd=login"
+					target="_self">로그인하러가기</a>
+			</c:if>
+			<c:if test="${check == 0}" var="result">
+				<h1>
+					죄송합니다.<br>중복되는 아이디입니다.<br>다시 가입해주세요.
+				</h1>
+				<a class="gray_message arrow" href="signUp.html">다시 가입하기</a>
+			</c:if>
+		</div>
+	</div>
 </body>
 </html>
