@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -15,39 +16,69 @@ import javax.servlet.http.HttpSession;
 
 import domain.ForumVO;
 import persistence.ForumDAO;
+import service.ForumFilter;
+import service.PostOwner;
 
-/**
- * Servlet implementation class ForumServlet
- */
 @WebServlet("/ForumServlet")
 public class ForumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ForumServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		System.out.println("Forum doGet()");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		String cmdReq = "";
 		cmdReq = request.getParameter("cmd");
+		
 		if (cmdReq.equals("add")) {
 			response.sendRedirect("register.html");
-		} else if(cmdReq.equals("post")) {
+		} else if (cmdReq.equals("category")) {
+			String category = request.getParameter("category");
+
+			ForumDAO dao = new ForumDAO();
+			ArrayList<ForumVO> postList = new ArrayList<ForumVO>();
+			postList = dao.getForumsList();
+
+			// category 별 리스트 filter
+			postList = ForumFilter.filterByCategory(postList, category);
+			
+			request.setAttribute("postList", postList);
+			request.setAttribute("category", category);
+
+			RequestDispatcher view = request.getRequestDispatcher("totalForum.jsp");
+			view.forward(request, response);
+		} else if (cmdReq.equals("post")) {
+			ForumDAO dao = new ForumDAO();
+			String creator = request.getParameter("creator");
+			String user_id = (String)request.getSession().getAttribute("user_id");
+			ForumVO post = dao.read(creator);
+			
+			//isOwner() 게시글의 주인인지 확인
+			request.setAttribute("isOwner", PostOwner.isOwner(post, user_id));
+			request.setAttribute("post", dao.read(creator));
+			
+			RequestDispatcher view = request.getRequestDispatcher("post.jsp");
+			view.forward(request, response);
+		} else if (cmdReq.equals("update")) {
 			ForumDAO dao = new ForumDAO();
 			String creator = request.getParameter("creator");
 			request.setAttribute("post", dao.read(creator));
 			
-			RequestDispatcher view = request.getRequestDispatcher("post.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("post_update.jsp");
+			view.forward(request, response);
+		} else if (cmdReq.equals("delete")) {
+			ForumDAO dao = new ForumDAO();
+			String creator = request.getParameter("creator");
+			
+			if(dao.delete(creator)) {
+				request.setAttribute("category", "전체");
+				request.setAttribute("isSuccess", creator+" 게시글을 삭제했습니다.");
+			}
+			request.setAttribute("postList", dao.getForumsList());
+			request.setAttribute("category", "전체");
+			
+			RequestDispatcher view = request.getRequestDispatcher("totalForum.jsp");
 			view.forward(request, response);
 		}
 	}
