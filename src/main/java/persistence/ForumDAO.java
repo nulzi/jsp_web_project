@@ -87,7 +87,7 @@ public class ForumDAO {
 		return true;
 	}
 
-	public boolean delete(String creator, String user_id) {
+	public boolean delete(String creator) {
 		connect();
 		String sql = "delete from forums where creator=?";
 
