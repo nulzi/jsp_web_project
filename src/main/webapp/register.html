@@ -3,16 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="./resources/public.css" type="text/css" />
 </head>
 <body>
-	<header>Add Your Creater</header>
-	<div>
-		<form
-			action="http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=join"
-			method="post">
-			<fieldset>
-				<legend>Creater Information</legend>
-				<ul>
+	<div class="app_container">
+		<header class="header_container logo">
+			what's<br>in<br>your<br> <img alt="youtube logo"
+				src="./resources/images/youtube.jpg">?
+		</header>
+		<div class="main_container column_box">
+			<h1>Add Your Post</h1>
+			<form
+				action="http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=add"
+				method="post">
+				<ul class="post_ul">
 					<li>유튜버 이름 : <input type="text" name="creator" autofocus
 						required placeholder="공백없이 입력하세요" />
 					<li>카테고리 : <select name="category">
@@ -27,13 +31,13 @@
 					<li>간단한 소개 : <input type="text" name="content" required
 						placeholder="간단한 소개글을 작성해주세요" />
 				</ul>
-			</fieldset>
-			<br>
-			<fieldset>
-				<input type="submit" name="submit" value="추가하기"> <input
-					type="reset" name="reset" value="다시 작성">
-			</fieldset>
-		</form>
+				<input class="button input_btn" type="submit" name="submit" value="추가하기">
+				<input class="button" type="reset" name="reset" value="다시 작성">
+			</form>
+			<button class="button goForum"
+				onclick="location.href='http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=category&category=전체'">
+				목록</button>
+		</div>
 	</div>
 </body>
 </html>
