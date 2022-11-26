@@ -83,12 +83,8 @@ public class ForumServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("Forum doPost()");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
@@ -97,14 +93,13 @@ public class ForumServlet extends HttpServlet {
 
 		cmdReq = request.getParameter("cmd");
 
-		if (cmdReq.equals("join")) {
+		if (cmdReq.equals("add")) {
 			HttpSession session = request.getSession();
 			String user_id = (String) session.getAttribute("user_id");
-			System.out.println(user_id);
 			Date today = new Date();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String upload_date = dateFormat.format(today);
-			
+
 			ForumVO forumVO = new ForumVO();
 
 			forumVO.setCreator(request.getParameter("creator"));
@@ -123,10 +118,29 @@ public class ForumServlet extends HttpServlet {
 				message = "게시글 등록이 실패했습니다.";
 			}
 
-			request.setAttribute("greetings", message);
+			request.setAttribute("isSuccess", message);
 			request.setAttribute("post", forumVO);
 
 			RequestDispatcher view = request.getRequestDispatcher("register_result.jsp");
+			view.forward(request, response);
+		} else if (cmdReq.equals("update")) {
+			ForumVO post = new ForumVO();
+			
+			post.setCreator(request.getParameter("creator"));
+			post.setCategory(request.getParameter("category"));
+			post.setUser_id((String)request.getSession().getAttribute("user_id"));
+			post.setContent(request.getParameter("content"));
+			post.setUpload_date(request.getParameter("upload_date"));
+			
+			ForumDAO dao = new ForumDAO();
+			
+			if(dao.update(post)) {
+				request.setAttribute("isSuccess", "수정에 성공했습니다.");
+			} else {
+				request.setAttribute("isSuccess", "수정에 실패했습니다.");
+			}
+			request.setAttribute("post", post);
+			RequestDispatcher view = request.getRequestDispatcher("post.jsp");
 			view.forward(request, response);
 		}
 	}
