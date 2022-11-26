@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="domain.*"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +30,16 @@
 				<td><%=post.getUpload_date()%></td>
 			</tr>
 		</table>
+			<c:if test="${check == 0}" var="result">
+				<button class="button"
+					onclick="location.href='http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=add'">
+					다시 작성</button>
+			</c:if>
+			<c:if test="${check == 1}" var="result">
+				<button class="button"
+					onclick="location.href='http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=category&category=전체'">
+					목록</button>
+			</c:if>
 	</div>
 </body>
 </html>
