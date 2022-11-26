@@ -129,7 +129,7 @@ public class ForumDAO {
 	public ArrayList<ForumVO> getForumsList() {
 		connect();
 		ArrayList<ForumVO> forumslist = new ArrayList<ForumVO>();
-		String sql = "select * from forums";
+		String sql = "select * from forums order by upload_date desc";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
