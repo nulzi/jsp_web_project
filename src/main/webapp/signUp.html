@@ -3,15 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="./resources/public.css" type="text/css" />
 </head>
 <body>
-	<h2>what's in your youtube?</h2>
-	<hr>
-	<form action="http://localhost:8080/kimtaeyoung_free/UserServlet?cmd=signupResult" method="post">
-		아이디: <input type="text" name="id" autofocus required placeholder="입력" /><br>
-		비밀번호: <input type="password" name="passwd" required placeholder="입력" /><br>
-		닉네임: <input type="text" name="username" required placeholder="입력" /><br>
-		<input type="submit" name="signup" value="회원가입">
-	</form>
+	<div class="app_container">
+		<header class="header_container logo">
+			what's<br>in<br>your<br> <img alt="youtube logo"
+				src="./resources/images/youtube.jpg">?
+		</header>
+		<div class="main_container login_box">
+			<h1>회원가입</h1>
+			<form
+				action="http://localhost:8080/kimtaeyoung_free/UserServlet?cmd=signupResult"
+				method="post">
+				<div class="signup_input">
+					아이디 <input type="text" name="id" autofocus required
+						placeholder="입력" />
+					비밀번호 <input type="password"
+						name="passwd" required placeholder="입력" />
+					닉네임 <input
+						type="text" name="username" required placeholder="입력" />
+					<input class="align_center button" type="submit" name="signup" value="회원가입">
+				</div>
+			</form>
+		</div>
+	</div>
 </body>
 </html>
