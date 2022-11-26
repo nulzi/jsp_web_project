@@ -17,18 +17,11 @@ import org.json.JSONObject;
 import domain.*;
 import persistence.*;
 
-/**
- * Servlet implementation class RestServlet
- */
 @WebServlet("/RestServlet")
 public class RestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stubrequest.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
 		PrintWriter out = response.getWriter();
@@ -40,22 +33,6 @@ public class RestServlet extends HttpServlet {
 
 		JSONArray arrayJson = new JSONArray();
 
-		if (cmdReq.equals("user_list")) {
-			try {
-				UserDAO userDAO = new UserDAO();
-				List<UserVO> userList = userDAO.getUsersList();
-				for (UserVO vo : userList) {
-					JSONObject json = new JSONObject();
-					json.put("id", vo.getId());
-					json.put("passwd", vo.getPasswd());
-					json.put("username", vo.getUsername());
-					arrayJson.put(json);
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			out.print(arrayJson);
-		}
 		if (cmdReq.equals("forum_list")) {
 			try {
 				ForumDAO forumDAO = new ForumDAO();
@@ -69,25 +46,6 @@ public class RestServlet extends HttpServlet {
 					json.put("upload_date", vo.getUpload_date());
 					arrayJson.put(json);
 				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			out.print(arrayJson);
-		}
-		if (cmdReq.equals("user_read")) {
-			try {
-				UserDAO userDAO = new UserDAO();
-				String id = request.getParameter("id");
-				if (id == null) {
-					out.print("id를 입력해주세요");
-					return;
-				}
-				UserVO user = userDAO.read(id);
-				JSONObject json = new JSONObject();
-				json.put("id", user.getId());
-				json.put("passwd", user.getPasswd());
-				json.put("username", user.getUsername());
-				arrayJson.put(json);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -116,11 +74,7 @@ public class RestServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
