@@ -64,7 +64,7 @@ public class UserDAO {
 		return user;
 	}
 
-	public UserVO find(String strId, String strPw) {
+	public UserVO isRegisteredUser(String strId, String strPw) {
 		connect();
 		UserVO user = new UserVO();
 		String sql = "select * from users where id=? and passwd=?";
