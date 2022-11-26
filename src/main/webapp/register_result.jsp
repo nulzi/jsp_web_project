@@ -6,30 +6,38 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="./resources/public.css" type="text/css" />
 </head>
 <body>
-	<p id="sect"><%=request.getAttribute("greetings")%>
-	</p>
-	<div>
-		<%
-		ForumVO post = (ForumVO) request.getAttribute("post");
-		%>
-		<table>
-			<tr>
-				<th>계정</th>
-				<th>이름</th>
-				<th>학번</th>
-				<th>학과</th>
-				<th>핸드폰</th>
-			</tr>
-			<tr>
-				<td><%=post.getCreator()%></td>
-				<td><%=post.getCategory()%></td>
-				<td><%=post.getUser_id()%></td>
-				<td><%=post.getContent()%></td>
-				<td><%=post.getUpload_date()%></td>
-			</tr>
-		</table>
+	<div class="app_container">
+		<header class="header_container logo">
+			what's<br>in<br>your<br> <img alt="youtube logo"
+				src="./resources/images/youtube.jpg">?
+		</header>
+		<div class="main_container column_box">
+			<h1>${isSuccess}</h1>
+			<table>
+				<tr>
+					<th>크리에이터</th>
+					<td>${post.creator}</td>
+				</tr>
+				<tr>
+					<th>카테고리</th>
+					<td>${post.category}</td>
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td>${post.user_id }</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>${post.content }</td>
+				</tr>
+				<tr>
+					<th>업로드 날</th>
+					<td>${post.upload_date }</td>
+				</tr>
+			</table>
 			<c:if test="${check == 0}" var="result">
 				<button class="button"
 					onclick="location.href='http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=add'">
@@ -40,6 +48,7 @@
 					onclick="location.href='http://localhost:8080/kimtaeyoung_free/ForumServlet?cmd=category&category=전체'">
 					목록</button>
 			</c:if>
+		</div>
 	</div>
 </body>
 </html>
